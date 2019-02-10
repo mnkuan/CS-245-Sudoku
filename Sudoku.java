@@ -53,31 +53,29 @@ public class Sudoku {
       for (int col = 0; col < COL; col++) {
         if (board[row][col] == 0) {
           for (int num = randNum, count = 0; count < 10; num++, count++) {
-            num = num % 10;
+            
+            num = num % 10;     // keep num within 1 - 9 (avoid 0 on the bottom if statement)
+            
             if (num == 0) {
               num++;    // avoid making num = 0
             }
-            
-            //System.out.println("num: " + num);
-            //try {Thread.sleep(800);} catch (Exception err) {;}
-            
+
+            // Checks if the value chosen is valid
             if (isValidNumber(num, row, col)) {
               board[row][col] = num;
-              printBoard();
               
-              if (fillBoard()) {
+              if (fillBoard()) {    // check the next column (uses the if statement)
                 return true;
               } else {
-                board[row][col] = 0;
+                board[row][col] = 0;    // backtrack
               }
             }
           }
-          return false;
+          return false;     // go back to the previous column
         }
       }
     }
-    
-    return true;
+    return true;    // sudoku finished generating
   }
 
   /*
